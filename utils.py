@@ -1,5 +1,64 @@
 import random
 
+HANGMAN_STAGES = [
+    r"""
+  +---+
+  |   |
+      |
+      |
+      |
+      |
+=========""",
+    r"""
+  +---+
+  |   |
+  O   |
+      |
+      |
+      |
+=========""",
+    r"""
+  +---+
+  |   |
+  O   |
+  |   |
+      |
+      |
+=========""",
+    r"""
+  +---+
+  |   |
+  O   |
+ /|   |
+      |
+      |
+=========""",
+    r"""
+  +---+
+  |   |
+  O   |
+ /|\  |
+      |
+      |
+=========""",
+    r"""
+  +---+
+  |   |
+  O   |
+ /|\  |
+ /    |
+      |
+=========""",
+    r"""
+  +---+
+  |   |
+  O   |
+ /|\  |
+ / \  |
+      |
+=========""",
+]
+
 
 def get_random_word():
     """Return a random word read from wordlist.txt."""
@@ -7,8 +66,16 @@ def get_random_word():
         words = [line.strip() for line in file if line.strip()]
     return random.choice(words)
 
+
+def draw_hangman(errors):
+    """Print the hangman drawing that matches the number of errors."""
+    stage = min(errors, len(HANGMAN_STAGES) - 1)
+    print(HANGMAN_STAGES[stage].strip("\n"))
+
+
 def show_status(game):
-    """Show the guessed letters, the word progress and the remaining attempts."""
+    """Show the drawing, the guessed letters, the progress and the attempts."""
+    draw_hangman(game.errors)
     if game.guessed_letters:
         guessed = ", ".join(game.guessed_letters)
     else:
